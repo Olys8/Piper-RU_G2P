@@ -401,6 +401,8 @@ class VitsModel(L.LightningModule):
         if mos_scores:
             val_mos = sum(mos_scores) / len(mos_scores)
             self.log("val_mos", val_mos, prog_bar=True, sync_dist=True)
+        else:
+            self.log("val_mos", float("nan"), prog_bar=False, sync_dist=True)
 
     def configure_optimizers(self):
         # The discriminator optimizer also drives the MRD when enabled, so its

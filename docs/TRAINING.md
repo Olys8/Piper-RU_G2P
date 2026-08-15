@@ -94,10 +94,17 @@ where `speaker_1` and `speaker_2` are the **names** of the speakers. When traini
 
 If you are training a Russian voice, you can use the `RU_G2P` phonemizer (using the `nsu-ai/russian_g2p` backend) instead of `espeak-ng`. This will generate Russian Cyrillic phoneme lists directly.
 
-To use it, add the following parameters when training:
+To use it, set `--data.phoneme_type ru_g2p` when training:
 
 ```sh
-  --data.phoneme_type ru_g2p
+python3 -m piper.train fit \
+  --data.csv_path /path/to/dataset/metadata.csv \
+  --data.cache_dir /path/to/dataset/cache \
+  --data.phoneme_type ru_g2p \
+  --data.batch_size 32 \
+  --data.num_workers 4 \
+  --data.config_path config.json \
+  --data.voice_name russian_ru_g2p
 ```
 
 Your dataset metadata CSV format remains standard:

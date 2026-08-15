@@ -50,9 +50,9 @@ class VitsDataModule(L.LightningDataModule):
         self,
         csv_path: Union[str, Path],
         cache_dir: Union[str, Path],
-        espeak_voice: str,
-        config_path: Union[str, Path],
-        voice_name: str,
+        espeak_voice: Optional[str] = None,
+        config_path: Union[str, Path] = "config.json",
+        voice_name: str = "voice",
         sample_rate: int = 22050,
         audio_dir: Optional[Union[str, Path]] = None,
         alignments_dir: Optional[Union[str, Path]] = None,
@@ -78,7 +78,7 @@ class VitsDataModule(L.LightningDataModule):
 
         self.csv_path = Path(csv_path)
         self.cache_dir = Path(cache_dir)
-        self.espeak_voice = espeak_voice
+        self.espeak_voice = espeak_voice or ""
         self.config_path = Path(config_path)
         self.voice_name = voice_name
 
@@ -236,6 +236,14 @@ class VitsDataModule(L.LightningDataModule):
 
             def phonemize(text: str) -> list[list[str]]:
                 return hebrew_phonemizer.phonemize(text)
+
+        elif self.phoneme_type == PhonemeType.RU_G2P:
+            from piper.phonemize_ru_g2p import RuG2PPhonemizer
+
+            ru_phonemizer = RuG2PPhonemizer()
+
+            def phonemize(text: str) -> list[list[str]]:
+                return ru_phonemizer.phonemize(text)
 
         elif self.phoneme_type == PhonemeType.TEXT:
             # text = phonemes
