@@ -1,5 +1,7 @@
 ![Piper](etc/logo.png)
 
+THIS IS A MODIFICATION OF THE [ORIGINAL][original-rep] Piper aimed at adding the RU_G2P phonemizer.
+
 A fast and local neural text-to-speech engine that embeds [espeak-ng][] for phonemization.
 
 Install with:
@@ -50,6 +52,7 @@ Bindings to use Piper in programming languages other than Python and C/C++:
 [![A library from the Open Home Foundation](https://www.openhomefoundation.org/badges/ohf-library.png)](https://www.openhomefoundation.org/)
 
 <!-- Links -->
+[original-rep]: https://github.com/OHF-Voice/piper1-gpl
 [espeak-ng]: https://github.com/espeak-ng/espeak-ng
 [cli]: https://github.com/OHF-Voice/piper1-gpl/blob/main/docs/CLI.md
 [api-http]: https://github.com/OHF-Voice/piper1-gpl/blob/main/docs/API_HTTP.md
