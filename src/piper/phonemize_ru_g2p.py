@@ -3,7 +3,7 @@
 import inspect
 import sys
 
-# --- 1. Python 3.11+ / inspect Compatibility Patch ---
+# --- 1. Python 3.11+ / inspect & Python 3.12+ dawg / dawg2 Compatibility Patch ---
 if not hasattr(inspect, "getargspec"):
     from collections import namedtuple
 
@@ -14,6 +14,21 @@ if not hasattr(inspect, "getargspec"):
         return ArgSpec(full.args, full.varargs, full.varkw, full.defaults)
 
     inspect.getargspec = getargspec
+
+# If `dawg` module is missing (e.g. Python 3.12+ where `dawg` fails to build due to `longintrepr.h`),
+# alias `dawg2` (or `DAWG`) to `dawg` if available.
+try:
+    import dawg  # type: ignore # noqa: F401
+except ImportError:
+    try:
+        import dawg2
+        sys.modules["dawg"] = dawg2
+    except ImportError:
+        try:
+            import DAWG
+            sys.modules["dawg"] = DAWG
+        except ImportError:
+            pass
 
 # --- 2. Keras 3 / TensorFlow 2.16+ Compatibility Patch ---
 try:
