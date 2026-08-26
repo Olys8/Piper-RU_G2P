@@ -82,6 +82,26 @@ from typing import List
 from russian_g2p.Accentor import Accentor
 from russian_g2p.Grapheme2Phoneme import Grapheme2Phoneme
 
+from .const import BOS, EOS, PAD
+from .phoneme_ids import DEFAULT_PHONEME_ID_MAP
+
+_g2p_instance = Grapheme2Phoneme()
+_ru_phonemes_list = sorted(
+    list(set(_g2p_instance.russian_phonemes + ["sil", "<sil>", " "]))
+)
+
+PHONEME_TO_ID: dict[str, list[int]] = {
+    PAD: DEFAULT_PHONEME_ID_MAP[PAD],
+    BOS: DEFAULT_PHONEME_ID_MAP[BOS],
+    EOS: DEFAULT_PHONEME_ID_MAP[EOS],
+}
+
+_idx = 3
+for _p in _ru_phonemes_list:
+    if _p not in PHONEME_TO_ID:
+        PHONEME_TO_ID[_p] = [_idx]
+        _idx += 1
+
 
 class RuG2PPhonemizer:
     """Phonemizer that uses nsu-ai/russian_g2p."""

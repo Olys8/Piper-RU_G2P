@@ -164,6 +164,10 @@ class VitsDataModule(L.LightningDataModule):
 
             phoneme_id_map = PHONEME_TO_ID
             phonemes_to_ids = chinese_phonemes_to_ids
+        elif self.phoneme_type == PhonemeType.RU_G2P:
+            from piper.phonemize_ru_g2p import PHONEME_TO_ID
+
+            phoneme_id_map = PHONEME_TO_ID
 
         self.piper_config = PiperConfig(
             num_symbols=self.num_symbols,
