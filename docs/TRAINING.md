@@ -90,6 +90,33 @@ utt2.wav|speaker_2|Text for utterance 2 with second speaker.
 
 where `speaker_1` and `speaker_2` are the **names** of the speakers. When training begins, Piper will count up the number of unique speaker names and create a mapping between speaker names and ids. This mapping will be saved in the `config.json` file for the voice (`--data.config_path`).
 
+### Russian Training with RU_G2P
+
+If you are training a Russian voice, you can use the `RU_G2P` phonemizer (using the `nsu-ai/russian_g2p` backend) instead of `espeak-ng`. This will generate Russian Cyrillic phoneme lists directly.
+
+To use it, set `--data.phoneme_type ru_g2p` when training:
+
+```sh
+python3 -m piper.train fit \
+  --data.csv_path /path/to/dataset/metadata.csv \
+  --data.cache_dir /path/to/dataset/cache \
+  --data.phoneme_type ru_g2p \
+  --data.batch_size 32 \
+  --data.num_workers 4 \
+  --data.config_path config.json \
+  --data.voice_name russian_ru_g2p
+```
+
+Your dataset metadata CSV format remains standard:
+
+```csv
+utt1.wav|Привет, как твои дела?
+utt2.wav|Хорошая погода сегодня.
+...
+```
+
+Make sure that `russian_g2p` is installed in your python environment (e.g. `pip install git+https://github.com/nsu-ai/russian_g2p.git`).
+
 ### Custom Phonemes
 
 If you want to skip phonemization with `espeak-ng`, set `--data.phoneme_type text` and use the CSV format:

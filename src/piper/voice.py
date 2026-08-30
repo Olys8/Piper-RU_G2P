@@ -234,6 +234,16 @@ class PiperVoice:
 
             return phonemizer.phonemize(text)
 
+        if self.config.phoneme_type == PhonemeType.RU_G2P:
+            from .phonemize_ru_g2p import RuG2PPhonemizer
+
+            phonemizer = getattr(self, "_ru_g2p_phonemizer", None)
+            if phonemizer is None:
+                phonemizer = RuG2PPhonemizer()
+                setattr(self, "_ru_g2p_phonemizer", phonemizer)
+
+            return phonemizer.phonemize(text)
+
         if self.config.phoneme_type != PhonemeType.ESPEAK:
             raise ValueError(f"Unexpected phoneme type: {self.config.phoneme_type}")
 
